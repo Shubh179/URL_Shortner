@@ -14,9 +14,10 @@ const userRoute=require("./routes/user");
 const app=express();
 const port=8001;
 
-connectToMongoDB("mongodb://127.0.0.1:27017/short-url")
+connectToMongoDB(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/short-url")
 .then(()=>console.log("Connected to MongoDB"));
 
+app.locals.baseUrl = process.env.BASE_URL || "http://localhost:8001";
 app.set("view engine","ejs");//ejs files are HTML files
 app.set("views",path.resolve("./views"));//views folder in root directory
 
@@ -44,6 +45,9 @@ app.get("/url/:shortid",async(req,res)=>{
             timestamp:Date.now()
         },
     }})
+    if (!entry) {
+        return res.status(404).send("Short URL not found");
+    }
     res.redirect(entry.redirectURL);
 })//gives shortid and on that shortid I have to redirect to og url
 
