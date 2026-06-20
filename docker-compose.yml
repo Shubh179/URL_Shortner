@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: url_shortener_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  web:
+    build: .
+    container_name: url_shortener_web
+    restart: always
+    ports:
+      - "8001:8001"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/short-url
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
