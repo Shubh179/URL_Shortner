@@ -11,7 +11,7 @@ services:
       - mongo_data:/data/db
 
   web:
-    build: .
+    image: shubh1709/url-shortener:latest
     container_name: url_shortener_web
     restart: always
     ports:
