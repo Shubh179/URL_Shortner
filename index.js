@@ -11,8 +11,10 @@ const staticRoute=require("./routes/staticRouter");
 const userRoute=require("./routes/user");
 
 
-const app=express();
-const port=8001;
+const app = express();
+
+// v2 - CI/CD pipeline test
+const port = 8001;
 
 connectToMongoDB(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/short-url")
 .then(()=>console.log("Connected to MongoDB"));
